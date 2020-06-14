@@ -14,6 +14,7 @@
         "php": ">=7.1",
         "ext-fileinfo": "*"
     },
+
     "autoload": {
         "psr-4": {
             "wherw\\" : "src"
