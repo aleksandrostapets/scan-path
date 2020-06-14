@@ -9,8 +9,8 @@
             "email": "ostap_an@hotmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
+        "php": ">=7.1",
         "ext-fileinfo": "*"
     },
     "autoload": {
