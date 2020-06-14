@@ -1,0 +1,21 @@
+{
+    "name": "wherw/scan-path",
+    "description": "Recursive directory scanner to search for files using the file extension or mime type",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "wherw",
+            "email": "ostap_an@hotmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ext-fileinfo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "wherw\\" : "src"
+        }
+    }
+}
