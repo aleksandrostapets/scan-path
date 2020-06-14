@@ -9,6 +9,7 @@
             "email": "ostap_an@hotmail.com"
         }
     ],
+    "minimum-stability": "stable",
     "require": {
         "php": ">=7.1",
         "ext-fileinfo": "*"
