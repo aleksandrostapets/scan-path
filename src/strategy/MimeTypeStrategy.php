@@ -20,7 +20,7 @@ class MimeTypeStrategy implements MethodStrategyInterface
         $mimeType = strtolower(mime_content_type($fileName));
         if (is_string($type)) {
             if (strstr($mimeType, $type)) {
-                return $fileName;
+                return realpath($fileName);
             }
         } else {
             throw new \Exception('The mime type was entered incorrectly');

@@ -3,12 +3,12 @@
 
 namespace wherw\files;
 
-use wherw\ScanDir;
+use wherw\ScanPath;
 
 class FilesManager
 {
     /**
-     * @var ScanDir
+     * @var ScanPath
      */
     private $scanDir;
     /**
@@ -18,10 +18,10 @@ class FilesManager
 
     /**
      * FilesManager constructor.
-     * @param ScanDir $scanDir
+     * @param ScanPath $scanDir
      * @param string $file
      */
-    public function __construct(ScanDir $scanDir, string $file)
+    public function __construct(ScanPath $scanDir, string $file)
     {
         $this->scanDir = $scanDir;
         $this->file = $file;

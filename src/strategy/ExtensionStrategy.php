@@ -19,7 +19,7 @@ class ExtensionStrategy implements MethodStrategyInterface
         $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
         if (is_array($type)) {
             if (in_array($ext, $type)) {
-                return $fileName;
+                return realpath($fileName);
             }
         } else {
             throw new \Exception('The file extension was entered incorrectly');
