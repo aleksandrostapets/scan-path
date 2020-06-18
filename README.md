@@ -34,7 +34,7 @@ EXAMPLE
 -------
 ~~~
 $scan = new \wherw\ScanPath();
-$scan->setPath('D:/Music');
+$scan->setPath('/mnt/music/');
 $scan->setExtension([
     'm4a',
     'flac',
@@ -46,13 +46,13 @@ $scan->setExtension([
     'aac'
 ]);
 
-$files[] = $scan->getFiles();
+$files = $scan->getFiles();
 ~~~
 OR
 ~~~
 $scan = new \wherw\ScanPath();
-$scan->setPath('D:/Music');
+$scan->setPath('/mnt/music/');
 $scan->setMimeType('audio');
 
-$files[] = $scan->getFiles();
+$files = $scan->getFiles();
 ~~~

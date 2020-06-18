@@ -8,7 +8,7 @@ class ScanPath
 {
 
     private $dir = [];
-    private $file = [];
+    private $files = [];
     private $mimeType = '';
     private $path;
     private $isSetPath = false;
@@ -18,6 +18,7 @@ class ScanPath
 
     /**
      * @param string $path
+     * @return ScanPath
      */
     public function setPath(string $path)
     {
@@ -25,11 +26,13 @@ class ScanPath
             $this->path = $path;
             $this->isSetPath = true;
         }
+        return $this;
     }
 
     /**
      * This method get an array of file extensions
      * @param array $ext
+     * @return ScanPath
      */
     public function setExtension(array $ext)
     {
@@ -38,6 +41,7 @@ class ScanPath
             $this->methodName = 'Extension';
             $this->isSetType = true;
         }
+        return $this;
     }
 
     /**
@@ -49,6 +53,7 @@ class ScanPath
      *  - text
      *  - video
      * @param string $mimeType
+     * @return ScanPath
      */
     public function setMimeType(string $mimeType)
     {
@@ -57,6 +62,7 @@ class ScanPath
             $this->methodName = 'MimeType';
             $this->isSetType = true;
         }
+        return $this;
     }
 
     /**
@@ -89,7 +95,7 @@ class ScanPath
     public function getFiles(): array
     {
         $this->run();
-        return $this->file;
+        return $this->files;
     }
 
     private function run()
@@ -113,7 +119,7 @@ class ScanPath
                 } else {
                     $file = (new FilesManager($this, $file))->handle();
                     if (!empty($file)) {
-                        $this->file[] = $file;
+                        $this->files[] = $file;
                     }
                 }
 
