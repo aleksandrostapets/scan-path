@@ -21,7 +21,7 @@ CONFIGURATION
 Create an instance of the ScanPath class
 
 Create an instance of the ScanPath class. To search for files using this library, you need to call the setExtension method with a parameter in which you need to specify the array of file extensions you want to find. If you want to find files using mimeType, you need to call the setMimeType method, in which you need to specify the type of file you want to find. Supported types:
- - application;
+ - application; 
  - audio;
  - images;
  - multipart;
