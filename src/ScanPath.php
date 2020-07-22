@@ -2,6 +2,7 @@
 
 namespace wherw;
 
+use Exception;
 use wherw\files\FilesManager;
 
 class ScanPath
@@ -10,11 +11,9 @@ class ScanPath
     private $dir = [];
     private $files = [];
     private $mimeType = '';
-    private $path;
-    private $isSetPath = false;
-    private $isSetType = false;
+    private $path = __DIR__;
     private $ext = [];
-    private $methodName = '';
+    private $methodName;
 
     /**
      * @param string $path
@@ -24,7 +23,6 @@ class ScanPath
     {
         if (!empty($path)) {
             $this->path = $path;
-            $this->isSetPath = true;
         }
         return $this;
     }
@@ -39,7 +37,6 @@ class ScanPath
         if (!empty($ext)) {
             $this->ext = $ext;
             $this->methodName = 'Extension';
-            $this->isSetType = true;
         }
         return $this;
     }
@@ -60,7 +57,6 @@ class ScanPath
         if (!empty($mimeType)) {
             $this->mimeType = $mimeType;
             $this->methodName = 'MimeType';
-            $this->isSetType = true;
         }
         return $this;
     }
@@ -70,7 +66,7 @@ class ScanPath
      */
     public function getMethodName(): string
     {
-        return $this->methodName;
+        return $this->methodName ?? 'Extension';
     }
 
     /**
@@ -94,6 +90,7 @@ class ScanPath
      */
     public function getFiles(): array
     {
+        $this->files = [];
         $this->run();
         return $this->files;
     }
@@ -105,14 +102,24 @@ class ScanPath
             if (empty($path)) {
                 return;
             }
+            if (!file_exists($path)) {
+                throw new Exception('The specified file or directory does not exist');
+            }
             $scan = scandir($path);
+            if (!is_array($scan)) {
+                return;
+            }
+            $scan = array_values(array_filter($scan, function($file) {
+                $skip = ['.', '..'];
+                if (!in_array($file, $skip)) {
+                    return true;
+                }
+                return false;
+            }));
             $count = count($scan);
             while ($count) {
                 $count--;
                 $item = $scan[$count];
-                if (is_dir($item)) {
-                    break;
-                }
                 $file = $path . '/' . $item;
                 if (is_dir($file)) {
                     $this->dir[] = realpath($file);
@@ -126,7 +133,7 @@ class ScanPath
             }
             $this->path = array_pop($this->dir);
             $this->run();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
