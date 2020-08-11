@@ -110,11 +110,7 @@ class ScanPath
                 return;
             }
             $scan = array_values(array_filter($scan, function($file) {
-                $skip = ['.', '..'];
-                if (!in_array($file, $skip)) {
-                    return true;
-                }
-                return false;
+                return !in_array($file, ['.', '..']);
             }));
             $count = count($scan);
             while ($count) {
