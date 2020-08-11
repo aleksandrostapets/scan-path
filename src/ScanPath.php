@@ -2,14 +2,15 @@
 
 namespace wherw;
 
+use Ds\Vector;
 use Exception;
 use wherw\files\FilesManager;
 
 class ScanPath
 {
 
-    private $dir = [];
-    private $files = [];
+    private $dir;
+    private $files;
     private $mimeType = '';
     private $path = __DIR__;
     private $ext = [];
@@ -86,11 +87,12 @@ class ScanPath
     }
 
     /**
-     * @return array
+     * @return Vector
      */
-    public function getFiles(): array
+    public function getFiles(): Vector
     {
-        $this->files = [];
+        $this->dir = new Vector();
+        $this->files = new Vector();
         $this->run();
         return $this->files;
     }
@@ -99,39 +101,38 @@ class ScanPath
     {
         try {
             $path = $this->path;
-            if (empty($path)) {
-                return;
-            }
             if (!file_exists($path)) {
                 throw new Exception('The specified file or directory does not exist');
             }
-            $scan = scandir($path);
-            if (!is_array($scan)) {
+            $scan = new Vector(scandir($path));
+            if (!$scan instanceof Vector) {
                 return;
             }
-            $scan = array_values(array_filter($scan, function($file) {
-                return !in_array($file, ['.', '..']);
-            }));
-            $count = count($scan);
+            $count = $scan->count();
             while ($count) {
                 $count--;
-                $item = $scan[$count];
+                $item = $scan->get($count);
+                if ($item == '.' || $item == '..') {
+                    continue;
+                }
                 $file = $path . '/' . $item;
                 if (is_dir($file)) {
-                    $this->dir[] = realpath($file);
+                    $this->dir->push(realpath($file));
                 } else {
                     $file = (new FilesManager($this, $file))->handle();
                     if (!empty($file)) {
-                        $this->files[] = $file;
+                        $this->files->push($file);
                     }
                 }
-
             }
-            $this->path = array_pop($this->dir);
-            $this->run();
+            if ($this->dir->count()) {
+                $this->path = $this->dir->pop();
+                $this->run();
+            } else {
+                $this->path = __DIR__;
+            }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
-
 }
