@@ -104,10 +104,11 @@ class ScanPath
             if (!file_exists($path)) {
                 throw new Exception('The specified file or directory does not exist');
             }
-            $scan = new Vector(scandir($path));
-            if (!$scan instanceof Vector) {
-                return;
+            $scanDir = [];
+            if (is_readable($path) ) {
+                $scanDir = scandir($path);
             }
+            $scan = new Vector($scanDir);
             $count = $scan->count();
             while ($count) {
                 $count--;
@@ -128,11 +129,11 @@ class ScanPath
             if ($this->dir->count()) {
                 $this->path = $this->dir->pop();
                 $this->run();
-            } else {
-                $this->path = __DIR__;
             }
         } catch (Exception $e) {
             echo $e->getMessage();
+        } finally {
+            $this->path = __DIR__;
         }
     }
 }
