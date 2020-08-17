@@ -13,7 +13,7 @@
     "require": {
         "php": ">=7.1",
         "ext-fileinfo": "*",
-        "php-ds/php-ds": "dev-master"
+        "php-ds/php-ds": "^v1.2.0"
     },
 
     "autoload": {
