@@ -34,7 +34,7 @@ class FilesManager
     public function handle(): ?string
     {
         $strategy = $this->getStrategy();
-        $type = 'get' . ucfirst($this->scanDir->getMethodName());
+        $type = 'fetch' . ucfirst($this->scanDir->getMethodName());
         return $strategy->getName($this->scanDir->$type(), $this->file);
     }
 
@@ -42,7 +42,7 @@ class FilesManager
      * @return \wherw\entity\MethodStrategyInterface
      * @throws \Exception
      */
-    private function getStrategy()
+    private function getStrategy(): \wherw\entity\MethodStrategyInterface
     {
         $strategyName = $this->scanDir->getMethodName() . 'Strategy';
         $strategyClass = 'wherw\\strategy\\' . ucwords($strategyName);

@@ -20,7 +20,7 @@ class ScanPath
      * @param string $path
      * @return ScanPath
      */
-    public function setPath(string $path)
+    public function setPath(string $path): ScanPath
     {
         if (!empty($path)) {
             $this->path = $path;
@@ -33,7 +33,7 @@ class ScanPath
      * @param array $ext
      * @return ScanPath
      */
-    public function setExtension(array $ext)
+    public function setExtension(array $ext): ScanPath
     {
         if (!empty($ext)) {
             $this->ext = $ext;
@@ -53,12 +53,21 @@ class ScanPath
      * @param string $mimeType
      * @return ScanPath
      */
-    public function setMimeType(string $mimeType)
+    public function setMimeType(string $mimeType): ScanPath
     {
         if (!empty($mimeType)) {
             $this->mimeType = $mimeType;
             $this->methodName = 'MimeType';
         }
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    private function setFileTypes(): ScanPath
+    {
+        $this->methodName = 'FileTypes';
         return $this;
     }
 
@@ -73,7 +82,7 @@ class ScanPath
     /**
      * @return array
      */
-    public function getExtension(): array
+    public function fetchExtension(): array
     {
         return $this->ext;
     }
@@ -81,9 +90,19 @@ class ScanPath
     /**
      * @return string
      */
-    public function getMimeType(): string
+    public function fetchMimeType(): string
     {
         return $this->mimeType;
+    }
+
+    /**
+     * @param $name
+     * @param $arguments
+     * @return string
+     */
+    public function __call($name, $arguments): string
+    {
+        return '';
     }
 
     /**
@@ -95,6 +114,20 @@ class ScanPath
         $this->files = new Vector();
         $this->run();
         return $this->files;
+    }
+
+    /**
+     * this method implements obtaining a list of mimeTypes files
+     * @return array
+     */
+    public function getFileTypes(): array
+    {
+        $this->dir = new Vector();
+        $this->files = new Vector();
+        $this->setFileTypes();
+        $this->run();
+        unset($this->methodName);
+        return array_unique($this->files->toArray());
     }
 
     private function run()
