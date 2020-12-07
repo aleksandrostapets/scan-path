@@ -3,6 +3,7 @@
     "description": "Recursive directory scanner to search for files using the file extension or mime type",
     "type": "library",
     "license": "MIT",
+    "keywords": ["filesystem"],
     "authors": [
         {
             "name": "wherw",
