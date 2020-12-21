@@ -4,6 +4,7 @@ namespace wherw;
 
 use Ds\Vector;
 use Exception;
+use RuntimeException;
 use wherw\files\FilesManager;
 
 class ScanPath
@@ -130,12 +131,12 @@ class ScanPath
         return array_unique($this->files->toArray());
     }
 
-    private function run()
+    private function run(): void
     {
         try {
             $path = $this->path;
             if (!file_exists($path)) {
-                throw new Exception('The specified file or directory does not exist');
+                throw new RuntimeException('The specified file or directory does not exist');
             }
             $scanDir = [];
             if (is_readable($path) ) {
@@ -146,7 +147,7 @@ class ScanPath
             while ($count) {
                 $count--;
                 $item = $scan->get($count);
-                if ($item == '.' || $item == '..') {
+                if ($item === '.' || $item === '..') {
                     continue;
                 }
                 $file = $path . '/' . $item;
@@ -163,7 +164,7 @@ class ScanPath
                 $this->path = $this->dir->pop();
                 $this->run();
             }
-        } catch (Exception $e) {
+        } catch (RuntimeException $e) {
             echo $e->getMessage();
         } finally {
             $this->path = __DIR__;

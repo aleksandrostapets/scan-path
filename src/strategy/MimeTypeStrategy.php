@@ -4,6 +4,7 @@
 namespace wherw\strategy;
 
 
+use RuntimeException;
 use wherw\entity\MethodStrategyInterface;
 
 class MimeTypeStrategy implements MethodStrategyInterface
@@ -13,7 +14,7 @@ class MimeTypeStrategy implements MethodStrategyInterface
      * @param $type
      * @param string $fileName
      * @return string|null
-     * @throws \Exception
+     * @throws RuntimeException
      */
     public function getName($type, string $fileName): ?string
     {
@@ -23,7 +24,7 @@ class MimeTypeStrategy implements MethodStrategyInterface
                 return realpath($fileName);
             }
         } else {
-            throw new \Exception('The mime type was entered incorrectly');
+            throw new RuntimeException('The mime type was entered incorrectly');
         }
         return null;
     }

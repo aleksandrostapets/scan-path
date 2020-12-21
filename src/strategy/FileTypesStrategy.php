@@ -4,7 +4,9 @@
 namespace wherw\strategy;
 
 
-class FileTypesStrategy implements \wherw\entity\MethodStrategyInterface
+use wherw\entity\MethodStrategyInterface;
+
+class FileTypesStrategy implements MethodStrategyInterface
 {
 
     public function getName($type, string $fileName): ?string

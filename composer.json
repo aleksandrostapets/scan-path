@@ -15,7 +15,7 @@
     "require": {
         "php": ">=7.1",
         "ext-fileinfo": "*",
-        "php-ds/php-ds": "^v1.2.0"
+        "php-ds/php-ds": "^v1.3.0"
     },
 
     "autoload": {

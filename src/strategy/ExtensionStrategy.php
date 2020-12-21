@@ -4,7 +4,7 @@
 namespace wherw\strategy;
 
 
-use Exception;
+use RuntimeException;
 use wherw\entity\MethodStrategyInterface;
 
 class ExtensionStrategy implements MethodStrategyInterface
@@ -13,17 +13,17 @@ class ExtensionStrategy implements MethodStrategyInterface
      * @param array $type
      * @param string $fileName
      * @return string|null
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function getName($type, string $fileName): ?string
     {
         $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
         if (is_array($type)) {
-            if (in_array($ext, $this->getType($type, $ext))) {
+            if (in_array($ext, $this->getType($type, $ext), true)) {
                 return realpath($fileName);
             }
         } else {
-            throw new Exception('The file extension was entered incorrectly');
+            throw new RuntimeException('The file extension was entered incorrectly');
         }
         return null;
     }

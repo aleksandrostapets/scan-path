@@ -3,6 +3,8 @@
 
 namespace wherw\files;
 
+use RuntimeException;
+use wherw\entity\MethodStrategyInterface;
 use wherw\ScanPath;
 
 class FilesManager
@@ -29,7 +31,7 @@ class FilesManager
 
     /**
      * @return string | null
-     * @throws \Exception
+     * @throws RuntimeException
      */
     public function handle(): ?string
     {
@@ -39,15 +41,15 @@ class FilesManager
     }
 
     /**
-     * @return \wherw\entity\MethodStrategyInterface
-     * @throws \Exception
+     * @return MethodStrategyInterface
+     * @throws RuntimeException
      */
-    private function getStrategy(): \wherw\entity\MethodStrategyInterface
+    private function getStrategy(): MethodStrategyInterface
     {
         $strategyName = $this->scanDir->getMethodName() . 'Strategy';
         $strategyClass = 'wherw\\strategy\\' . ucwords($strategyName);
         if (!class_exists($strategyClass)) {
-            throw new \Exception('The class ' . $strategyName . ' does not exist');
+            throw new RuntimeException('The class ' . $strategyName . ' does not exist');
         }
         return new $strategyClass;
     }
